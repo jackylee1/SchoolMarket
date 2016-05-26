@@ -47,6 +47,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## AVOSCloud
+
+Copyright 2015 LeanCloud, Inc. See https://leancloud.cn/terms.html
+
 ## Alamofire
 
 Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
