@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 class RegisterViewController: BaseNavigationController {
     
@@ -19,6 +20,7 @@ class RegisterViewController: BaseNavigationController {
         createNavigation()
         createBacImage()
         createMidView()
+        test()
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,5 +77,18 @@ class RegisterViewController: BaseNavigationController {
         field2.resignFirstResponder()
         let field3 = view.viewWithTag(10003) as! UITextField
         field3.resignFirstResponder()
+    }
+    
+    func test() {
+        AVOSCloud.requestSmsCodeWithPhoneNumber("15603006353", appName: "学院超市", operation: "注册", timeToLive: 3) { (let succeeded, let error) in
+            if succeeded {
+                //发送成功
+                //您正在{某应用}中进行{具体操作名称}，您的验证码是:{123456}，请输入完整验证，有效期为:{3}分钟
+            }
+        }
+        
+//        AVOSCloud.verifySmsCode("", mobilePhoneNumber: "") { (let succeeded, let error) in
+//            
+//        }
     }
 }

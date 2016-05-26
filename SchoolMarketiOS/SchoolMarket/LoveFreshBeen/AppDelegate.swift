@@ -26,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         buildKeyWindow()
         
 
+        AVOSCloud.setApplicationId("yDLtJJnrbS0kxx1xJrMfcGFU-gzGzoHsz", clientKey:"8H140xe7DdaLsXzoy2FrJJ6E");
         return true
     }
     

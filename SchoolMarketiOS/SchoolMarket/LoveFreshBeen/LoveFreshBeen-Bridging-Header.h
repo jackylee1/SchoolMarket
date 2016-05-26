@@ -17,3 +17,4 @@
 #import "SVProgressHUD.h"
 #import "LCAccount.h"
 #import <MBProgressHUD/MBProgressHUD.h>
+#import "AVOSCloud.h"
