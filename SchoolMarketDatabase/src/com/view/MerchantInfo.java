@@ -31,9 +31,9 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 	JButton add, addc, modify, delete;
 	
 	// 右侧面板组件
-	JLabel id, sname,mname, sex, card, phone, address, mpasswd; 
+	JLabel id, sname,mname, sex, card, phone,address, mpasswd; 
 	
-	JTextField idt, snamet,mnamet, cardt, phonet, addresst, mpasswdt;
+	JTextField idt, snamet,mnamet, cardt, phonet,addresst, mpasswdt;
 	JRadioButton boy, gril;
 	ButtonGroup sext;
 	
@@ -74,7 +74,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 		public MerchantInfo(){
 			// 处理左侧
 			//1.设计jtable
-			mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone, Address, Mpasswd from merchantinfo where 1=?", paras);
+			mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone,Address, Mpasswd from merchantinfo where 1=?", paras);
 			Merchanttable = new JTable(mer);
 			
 			// 调用工具Tools类中的设置表格样式方法
@@ -180,7 +180,8 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 			setlab(address);
 			addresst = new JTextField(10);
 			setjtf(addresst);
-			addresst.setFont(new Font("新宋体",Font.PLAIN,13));
+//			addresst.setFont(new Font("新宋体",Font.PLAIN,13));
+			
 			
 			mpasswd = new JLabel(" 登录密码");
 			setlab(mpasswd);
@@ -252,7 +253,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 				cardt.setText("");
 				phonet.setText("");
 				addresst.setText("");
-				mpasswd.setText("");
+				mpasswdt.setText("");
 				
 				addc.setVisible(true);
 				Merchanttable.clearSelection();
@@ -290,7 +291,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 				}
 				
 				// 3.添加操作
-				String[] newparas={str1, str2, str3, str4, str5, str6, str7, str8};
+				String[] newparas={str1, str2, str3, str4, str5, str6, str7,str8};
 				String sql="insert into merchantinfo values (?, ?, ?, ?, ?, ?, ?, ?)";
 				boolean result = mernew.Merchantupdate(sql, newparas);
 				if (result) {
@@ -302,7 +303,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 							"<br />请检查信息是否符合要求！<br />");
 				}
 				mer = new MerchantModel();
-				mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone, Address,Mpasswd from merchantinfo where 1 = ?", paras);
+				mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone,Address, Mpasswd from merchantinfo where 1 = ?", paras);
 				Merchanttable.setModel(mer);
 			}
 			if (e.getSource() == modify) {
@@ -351,7 +352,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 						return;
 						
 					}
-					String[] newparas={str2, str3, str4, str5, str6, str7, str8, str1};
+					String[] newparas={str2, str3, str4, str5, str6, str7, str8,str1};
 					String sql="update merchantinfo set Mshopname=?,Mname=?,Sex=?,Card=?, Phone=?,Address=?,Mpasswd=? where Mid=?";
 					MerchantModel mernew = new MerchantModel();
 					boolean result = mernew.Merchantupdate(sql, newparas);
@@ -364,7 +365,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 								"<br />请检查信息是否符合要求！<br />");
 					}
 					mer = new MerchantModel();
-					mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone, Address, Mpasswd from merchantinfo where 1 = ?", paras);
+					mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone,Address, Mpasswd from merchantinfo where 1 = ?", paras);
 					Merchanttable.setModel(mer);
 				}
 
@@ -397,7 +398,7 @@ public class MerchantInfo extends JPanel implements MouseListener, FocusListener
 
 							JOptionPane.showMessageDialog(this, "<html><font size = '5' color = 'blue'>恭喜您，删除成功啦");
 							mer = new MerchantModel();
-							mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone, Address, Mpasswd from merchantinfo where 1 = ?", paras);
+							mer.query("select Mid, Mshopname, Mname, Sex, Card, Phone, Mpasswd from merchantinfo where 1 = ?", paras);
 							Merchanttable.setModel(mer);
 						}else {
 							

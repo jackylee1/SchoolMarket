@@ -34,7 +34,7 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 	JButton add, modify, delete;
 	
 	// 右侧面板组件
-	JButton put_in_storage, record, look_stcok;
+	//JButton put_in_storage, record, look_stcok;
 	JPanel jbuttonpanel;
 	
 	//定义一个鼠标指针的类型
@@ -203,7 +203,7 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 		jbuttonpanel.setPreferredSize(new Dimension(217, (int)(height*0.8)-354));
 		//jbuttonpanel.setBounds(x, y, width, height)
 		jbuttonpanel.setOpaque(false);
-		
+/*		
 		put_in_storage = new JButton(new ImageIcon("./image/put_in_storage.png"));
 		setbutton(put_in_storage, 2);
 		put_in_storage.setRolloverIcon(new ImageIcon("./image/put_in_storageC.png"));
@@ -215,11 +215,11 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 		look_stcok = new JButton(new ImageIcon("./image/lookstcok.png"));
 		setbutton(look_stcok, 2);
 		look_stcok.setRolloverIcon(new ImageIcon("./image/lookstcokC.png"));
-		
+*/			
 		showinfo = new JPanel();
 		showinfo.setPreferredSize(new Dimension(350, (int)(height*0.8)));
 		showinfo.setOpaque(false);
-		
+	
 		JPanel nulljp = new JPanel();
 		nulljp.setPreferredSize(new Dimension(350, 100));
 		nulljp.setOpaque(false);
@@ -379,12 +379,16 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 		producttable.setModel(pm);
 		Tools.setTableStyle(producttable);
 	}
+
+	
 	
 	// 查找优化函数
 	private void findproductinfo() {
 		
-		// 得到查找的条件
+		/*		
+    	// 得到查找的条件
 		String tiaojian = getIdorName.getText().trim();
+		
 		
 		while (tiaojian.isEmpty()) {
 			
@@ -398,16 +402,54 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 		if (gettype.getSelectedItem().equals("--所有产品--")) {
 			
 			// 对SellInfo ProductInfo表进行联合查询
-	 		if (!ProductModel.checknum("select count(*) from productinfo where Pid like '%'+?+'%' or Pname like '%'+?+'%'", tiaojianparas)) {
+	 		if (!ProductModel.checknum("select count(*) from productinfo where Pid like '%'  ? '%' or PName like '%'  ? '%'", tiaojianparas)) {
 				
 				JOptionPane.showMessageDialog(this, "抱歉，没有找到相关的产品信息");
 				return;
 				
 			}else {
-				
-				updatetable("select * from productinfo where Pid like '%'+?+'%' or Pname like '%'+?+'%'", tiaojianparas);
+				//String[] tiaojianpara={"J020","J020"};
+				updatetable("select from productinfo where Pid like '%'?'%' or PName like '%'?'%'", tiaojianparas);
+				//updatetable("select * from productinfo where Pid like '%' ? '%'or Pname like '%'?'%'", tiaojianpara);
+
 			}
 		}
+		*/
+		// 得到查找的条件
+		String tiaojian = getIdorName.getText().trim();
+		
+		while (tiaojian.isEmpty()) {
+			
+			JOptionPane.showMessageDialog(this, "抱歉，没有找到相关的产品信息");
+			return;
+		}
+		
+		String[] tiaojianparas = {tiaojian, tiaojian};
+		
+		if (gettype.getSelectedItem().equals("--所有产品--")) {
+			
+			// 对SellInfo ProductInfo表进行联合查询
+	 		if (!ProductModel.checknum("select count(*) from productinfo where Pid like '%'?'%' or PName like '%'?'%'", tiaojianparas)) {
+				
+				//JOptionPane.showMessageDialog(this, "抱歉，没有相关产品的销售记录");
+	 		}	
+	 		
+	 		updatetable("select Pid, PName, Price, Pcount, Ptype from productinfo where Pid like '%' ? '%' or PName like '%' ? '%'", tiaojianparas);
+	 
+		} else {
+			
+			String[] newtiaojianparas = {tiaojian, tiaojian, gettype.getSelectedItem().toString()};
+			
+			// 对SellInfo ProductInfo表进行联合查询
+	 		if (!SellModel.check("select count(*) from productinfo  where  (Pid like '%' ? '%' or PName like '%' ? '%') and Ptype = ?", newtiaojianparas)) {
+				
+	 			JOptionPane.showMessageDialog(this, "<html><br/><font size = '5'>在产品类别：<font color = 'red'>"+gettype.getSelectedItem()+"</font>中<br/>没有找到与：<font color = 'red'>"+tiaojian+"</font>&nbsp&nbsp相关的产品信息记录</font><br/><br/>");
+	 		}
+			updatetable("select Pid, PName, Price,Pcount,Ptype from productinfo where (Pid like '%' ? '%' or PName like '%' ? '%') " +
+						"and Ptype = ?", newtiaojianparas);
+		}
+
+	
 	}
 	@Override
 	public void focusGained(FocusEvent e) {
@@ -438,6 +480,7 @@ public class ProductInfo extends JPanel implements ActionListener, MouseListener
 				} else {
 
 					String[] parasnew = { gettype.getSelectedItem().toString() };
+					System.out.println("====parasnew======"+parasnew);
 					updatetable(
 							"select * from productinfo where Ptype = ? order by Ptype",
 							parasnew);

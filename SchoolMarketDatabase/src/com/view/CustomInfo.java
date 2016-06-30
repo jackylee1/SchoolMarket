@@ -26,13 +26,14 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 	JPanel showjp;
 	JTable Customtable = null;
 	
-
+    //增删改按钮
 	JButton add, addc, modify, delete;
 	
 	// 右侧面板组件
-	JLabel id, name, sex, phone, address, cpasswd; 
+	JLabel id, name, sex, phone, cpasswd; 
+
 	
-	JTextField idt, namet,  phonet, addresst, cpasswdt;
+	JTextField idt, namet,  phonet, cpasswdt;
 	JRadioButton boy, gril;
 	ButtonGroup sext;
 
@@ -74,7 +75,7 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 		
 		// 处理左侧
 		//1.设计jtable
-		cus.query("select Cid, Cname, Sex, Phone, Address Cpasswd from custominfo where 1=?", paras);
+		cus.query("select Cid, Cname, Sex, Phone, Cpasswd from custominfo where 1=?", paras);
 		Customtable = new JTable(cus);
 		
 		// 调用工具Tools类中的设置表格样式方法
@@ -165,12 +166,12 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 		phonet =new JTextField(10);
 		setjtf(phonet);
 		
-		address = new JLabel(" 收货地址");
+/*		address = new JLabel(" 收货地址");
 		setlab(address);
 		addresst = new JTextField(10);
 		setjtf(addresst);
 		addresst.setFont(new Font("新宋体",Font.PLAIN,13));
-		
+*/		
 		cpasswd = new JLabel(" 登录密码");
 		setlab(cpasswd);
 		cpasswdt = new JTextField(10);
@@ -216,8 +217,8 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 				gril.setSelected(true);
 			}
 			phonet.setText((String)cusnew.getValueAt(Customtable.getSelectedRow(), 3));
-			addresst.setText((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4));
-			cpasswdt.setText((String)cusnew.getValueAt(Customtable.getSelectedRow(), 5));
+//			addresst.setText((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4));
+			cpasswdt.setText((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4));
 			
 			addc.setVisible(false);
 			delete.setEnabled(true);
@@ -235,7 +236,7 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 			//boy.setSelected(false);
 			gril.setSelected(true);
 			phonet.setText("");
-			addresst.setText("");
+//			addresst.setText("");
 			cpasswdt.setText("");
 			
 			addc.setVisible(true);
@@ -260,20 +261,20 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 			}
 			
 			String str4 = phonet.getText();
-			String str5 = addresst.getText();
-			String str6 = cpasswdt.getText();
+//			String str5 = addresst.getText();
+			String str5 = cpasswdt.getText();
 			
 			// 2.判断信息是否为空
 			if (str1.equals("")||str2.equals("")||str3.equals("")||str4.equals("")||str5.equals("")
-					||str6.equals("")) {
+					) {
 				
 				JOptionPane.showMessageDialog(this, "<html><font color = 'red'>不能为空，请输入相应的信息！");
 				return;
 			}
 			
 			// 3.添加操作
-			String[] newparas={str1, str2, str3, str4, str5, str6};
-			String sql="insert into custominfo values (?, ?, ?, ?, ?, ?)";
+			String[] newparas={str1, str2, str3, str4, str5};
+			String sql="insert into custominfo values (?, ?, ?, ?, ?)";
 			boolean result = cusnew.Customupdate(sql, newparas);
 			if (result) {
 				
@@ -284,7 +285,7 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 						"<br />请检查信息是否符合要求！<br />" );
 			}
 			cus = new CustomModel();
-			cus.query("select Cid, Cname, Sex, Phone, Address, Cpasswd from custominfo where 1 = ?", paras);
+			cus.query("select Cid, Cname, Sex, Phone, Cpasswd from custominfo where 1 = ?", paras);
 			Customtable.setModel(cus);
 		}
 		if (e.getSource() == modify) {
@@ -316,8 +317,8 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 				}
 				
 				String str4 = phonet.getText();
-				String str5 = addresst.getText();
-				String str6 = cpasswdt.getText();
+//				String str5 = addresst.getText();
+				String str5 = cpasswdt.getText();
 				
 				if (mesconfirm() && str3.equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 2))) {
 					
@@ -325,14 +326,14 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 					return;
 				}
 				if(str2.equals("")||str3.equals("")||str4.equals("")||str5.equals("")
-						||str6.equals(""))
+						)
 				{
 					JOptionPane.showMessageDialog(this, "<html><font color = 'red'>不能为空，请输入相应的信息！");
 					return;
 					
 				}
-				String[] newparas={str2, str3, str4, str5, str6, str1};
-				String sql="update custominfo set Cname=?,Sex=?,Phone=?,Adress=?,Cpasswd=? where Cid=?";
+				String[] newparas={str2, str3, str4, str5, str1};
+				String sql="update custominfo set Cname=?,Sex=?,Phone=?,Cpasswd=? where Cid=?";
 				CustomModel cusnew = new CustomModel();
 				boolean result = cusnew.Customupdate(sql, newparas);
 				if (result) {
@@ -344,7 +345,7 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 							"<br />请检查信息是否符合要求！<br />");
 				}
 				cus = new CustomModel();
-				cus.query("select Cid, Cname, Sex, Phone, Address,Cpasswd from custominfo where 1 = ?", paras);
+				cus.query("select Cid, Cname, Sex, Phone, Cpasswd from custominfo where 1 = ?", paras);
 				Customtable.setModel(cus);
 			}
 
@@ -377,7 +378,7 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 
 						JOptionPane.showMessageDialog(this, "<html><font size = '5' color = 'blue'>恭喜您，删除成功啦");
 						cus = new CustomModel();
-						cus.query("select Cid, Cname, Sex, Phone, Address, Cpasswd from custominfo where 1 = ?", paras);
+						cus.query("select Cid, Cname, Sex, Phone, Cpasswd from custominfo where 1 = ?", paras);
 						Customtable.setModel(cus);
 					}else {
 						
@@ -451,8 +452,8 @@ public class CustomInfo extends JPanel implements MouseListener, FocusListener, 
 			if (idt.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 0)) 
 					&& namet.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 1)) 
 					&& phonet.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(),3 ))
-					&& addresst.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4))
-					&& cpasswdt.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 5))
+//					&& addresst.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4))
+					&& cpasswdt.getText().equals((String)cusnew.getValueAt(Customtable.getSelectedRow(), 4))
 				) 
 			{
 				b = true;

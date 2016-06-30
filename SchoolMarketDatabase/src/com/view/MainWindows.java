@@ -27,7 +27,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 	JToggleButton max;
 	
 	// 窗口菜单
-	JLabel merchant,custom, product,stcok;
+	JLabel merchant,custom, product,salcount;
 	
 	JPanel conjp;
 	CardLayout card;
@@ -77,7 +77,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 		jMenu.setPreferredSize(new Dimension((int)(width*0.55), 62));
 		jMenu.setOpaque(false);
 		
-		String [] nameStrings = {"商家信息", "顾客信息", "产品信息", "库存信息"};
+		String [] nameStrings = {"商家信息", "顾客信息", "产品信息", "销售信息"};
 		
 		merchant = CreateMenuLabel(merchant, nameStrings[0], jMenu);
 		merchant.setForeground(Color.yellow);
@@ -86,8 +86,8 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 		custom.setName("custom");
 		product = CreateMenuLabel(product, nameStrings[2], jMenu);
 		product.setName("product");
-		stcok = CreateMenuLabel(stcok, nameStrings[3], jMenu);
-		stcok.setName("stock");
+		salcount = CreateMenuLabel(salcount, nameStrings[3], jMenu);
+		salcount.setName("salcount");
 		
 		// 为了方便布局使用的空面板
 		jMenu1 = new JPanel();
@@ -132,7 +132,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 		
 		jTop = new JPanel(new BorderLayout());
 		jTop.setPreferredSize(new Dimension(width, 62));
-		jTop.setBackground(new Color(22, 120, 195));
+		jTop.setBackground(new Color(30, 144, 255));
 		
 		jTop.add(jMenu, "West");
 		jTop.add(jMenu1, "Center");
@@ -155,6 +155,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 			ProductInfo proinfo = new ProductInfo();
 			
 			// 库存信息面板
+			SellInfo sellInfo = new SellInfo();
 			
 			// conjp.add(empInfo, "empInfo"), 里面的字符串是个标识符，卡片不分先后
 			// 不过值得注意的是第一个加入的会在窗口实例化的时候显示为第一个
@@ -162,6 +163,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 			conjp.add(merinfo, "merinfo");
 			conjp.add(cusinfo, "cusinfo");
 			conjp.add(proinfo, "proinfo");
+			conjp.add(sellInfo, "sellInfo");
 			
 		}
 		// 创建背景图片面板
@@ -170,7 +172,7 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 			// 使用工具包里的图片面板设置窗体的背景图片
 			Image bk = null;
 			try {
-				bk=ImageIO.read(new File("image/bk.jpg"));
+				bk=ImageIO.read(new File("image/1.jpg"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -232,8 +234,8 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 			}
 			if (type.equals("click")) {
 				
-				String [] name = {"merchant", "custom", "product", "stcok"};
-				JLabel [] jlb1 = {merchant,custom, product,stcok};
+				String [] name = {"merchant", "custom", "product", "salcount"};
+				JLabel [] jlb1 = {merchant,custom, product,salcount};
 				for (int i = 0; i < name.length; i++) {
 					
 					if (jlb.getName().equals(name[0])) {
@@ -307,6 +309,11 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 				setTopMenuStyle(product, "click");
 				this.card.show(conjp, "proinfo");
 			}
+			if (e.getSource() == salcount) {
+				
+				setTopMenuStyle(salcount, "click");
+				this.card.show(conjp, "sellInfo");
+			}
 		}
 		
 		@Override
@@ -350,6 +357,10 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 				
 				setTopMenuStyle(product, "enter");
 			}
+			if (e.getSource() == this.salcount) {
+				
+				setTopMenuStyle(salcount, "enter");
+			}
 		}
 		@Override
 		public void mouseExited(MouseEvent e) {
@@ -381,6 +392,10 @@ public class MainWindows extends JFrame implements ActionListener, MouseListener
 			if (e.getSource() == this.product) {
 				
 				setTopMenuStyle(product, "exit");
+			}
+			if (e.getSource() == this.salcount) {
+				
+				setTopMenuStyle(salcount, "exit");
 			}
 		}
 		@Override

@@ -101,7 +101,7 @@ public void setbutton(JButton jb, int type) {
 		count = new JLabel("产品数量");
 		setlab(count);
 		countt = new JTextField();
-		count.setText(pm.getValueAt(selrow, 3).toString());
+		countt.setText(pm.getValueAt(selrow, 3).toString());
 		setjtf(countt);
 		
 		type = new JLabel("产品类别");

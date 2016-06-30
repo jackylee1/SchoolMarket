@@ -1,13 +1,13 @@
 /*
  *  工具集，用来收集一些公共的函数做成静态，完成代码的复用性
  */
+
 package com.mytools;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.Enumeration;
-
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -49,7 +49,7 @@ public class Tools {
     	jlb.setSelectionEnd(jlb.getText().length());
     }
     
- // 设置表格的样式
+    // 设置表格的样式
     @SuppressWarnings("static-access")
 	public static void setTableStyle(JTable jtb) {
     	
@@ -145,5 +145,4 @@ public class Tools {
 		redBarRenderer.setSeriesPaint(0, new Color(51,153,255));
 		
     }
-
 }

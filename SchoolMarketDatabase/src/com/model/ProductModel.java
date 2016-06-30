@@ -95,9 +95,11 @@ public class ProductModel extends AbstractTableModel{
 			try {
 				
 				ResultSet rs = sh.query(sql, paras);
+				
 				if(rs.next())
 				{
 					//如果进去，则比较
+
 					if (rs.getInt(1) >= 1) {
 						
 						b = true;
