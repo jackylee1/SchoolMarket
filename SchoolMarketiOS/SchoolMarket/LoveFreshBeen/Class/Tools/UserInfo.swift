@@ -39,8 +39,18 @@ class UserInfo: NSObject {
     }
     
     func defaultAdress() -> Adress? {
-        if allAdress == nil {            
-            return nil
+        if allAdress == nil {
+            weak var tmpSelf = self
+            
+            AdressData.loadMyAdressData { (data, error) -> Void in
+                if data?.data?.count > 0 {
+                    tmpSelf!.allAdress = data!.data!
+                } else {
+                    tmpSelf?.allAdress?.removeAll()
+                }
+            }
+            
+            return allAdress?.count > 1 ? allAdress![0] : nil
         } else {
             return allAdress![0]
         }

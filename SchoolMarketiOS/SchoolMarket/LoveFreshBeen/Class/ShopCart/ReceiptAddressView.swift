@@ -42,7 +42,7 @@ class ReceiptAddressView: UIView {
         addSubview(bottomImageView)
         addSubview(arrowImageView)
         
-        modifyButton.setTitle("", forState: UIControlState.Normal)
+        modifyButton.setTitle("修改", forState: UIControlState.Normal)
         modifyButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
         modifyButton.addTarget(self, action: "modifyButtonClick", forControlEvents: UIControlEvents.TouchUpInside)
         modifyButton.titleLabel?.font = UIFont.systemFontOfSize(15)

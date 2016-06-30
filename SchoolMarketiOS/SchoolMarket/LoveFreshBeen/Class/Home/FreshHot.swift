@@ -62,7 +62,7 @@ class Goods: NSObject {
     var pm_desc: String?
     var had_pm: Int = -1
     /// urlStr
-    var img: String? = "http://img01.bqstatic.com/upload/goods/000/006/6100/0000066100_08790.jpg@200w_200h_90Q.jpg"
+    var img: String?
     /// 是不是精选 0 : 不是, 1 : 是
     var is_xf: Int = 0
     

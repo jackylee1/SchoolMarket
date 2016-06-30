@@ -97,8 +97,6 @@ class PayView: UIView {
     private var alipayView: PayWayView?
     private var deliveryView: PayWayView?
     
-    weak var delegate:PayViewDelegate?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -123,7 +121,6 @@ class PayView: UIView {
         addSubview(deliveryView!)
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -133,13 +130,7 @@ class PayView: UIView {
         qqPurseView?.selectedButton.selected = type.rawValue == PayWayType.QQPurse.rawValue
         alipayView?.selectedButton.selected = type.rawValue == PayWayType.AliPay.rawValue
         deliveryView?.selectedButton.selected = type.rawValue == PayWayType.Delivery.rawValue
-        delegate?.getPayWay(type)
     }
-    
-}
-
-protocol PayViewDelegate:NSObjectProtocol {
-    func getPayWay(type: PayWayType);
 }
 
 

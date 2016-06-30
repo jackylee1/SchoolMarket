@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         buildKeyWindow()
         
 
-//        AVOSCloud.setApplicationId("yDLtJJnrbS0kxx1xJrMfcGFU-gzGzoHsz", clientKey:"8H140xe7DdaLsXzoy2FrJJ6E");
+        AVOSCloud.setApplicationId("yDLtJJnrbS0kxx1xJrMfcGFU-gzGzoHsz", clientKey:"8H140xe7DdaLsXzoy2FrJJ6E");
         return true
     }
     
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: ScreenBounds)
         window!.makeKeyAndVisible()
-        MLTransition.validatePanPackWithMLTransitionGestureRecognizerType(MLTransitionGestureRecognizerTypePan)
+        
         let isFristOpen = NSUserDefaults.standardUserDefaults().objectForKey("isFristOpenApp")
         
         if isFristOpen == nil {
@@ -107,10 +107,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarAppearance = UITabBar.appearance()
         tabBarAppearance.backgroundColor = UIColor.whiteColor()
         tabBarAppearance.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-        tabBarAppearance.tintColor = UIColor.redColor()
+        
         let navBarnAppearance = UINavigationBar.appearance()
         navBarnAppearance.translucent = false
-        navBarnAppearance.tintColor = UIColor.whiteColor()
     }
 }
 

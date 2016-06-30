@@ -11,7 +11,7 @@ import UIKit
 class RegisterTextField: UIView {
     
     private var bacView:UIView?
-    var textField:UITextField?
+    private var textField:UITextField?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,10 +39,6 @@ class RegisterTextField: UIView {
         
         textField?.placeholder = placeholder
         textField?.tag = tag
-        if textField?.tag == 10002 || textField?.tag == 10003 {
-            textField?.secureTextEntry = true
-        }
-
     }
 
 }

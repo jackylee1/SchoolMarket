@@ -30,12 +30,6 @@ typedef NS_ENUM(NSInteger, CacheStatusType)   // 缓存标记类型
 @property (nonatomic) BOOL logined;       // 是否登录
 @property (nonatomic) BOOL imLogined;  // 是否登录IM
 @property (nonatomic, copy) NSString *userId;
-
-@property (nonatomic, copy) NSString *nick;
-@property (nonatomic, copy) NSString *address;
-@property (nonatomic, copy) NSString *gender;
-
-
 @property (nonatomic, copy) NSString *m_ids;         //我的药箱的所有药品id eg："1,2,3,4"
 @property (nonatomic, copy) NSString *sessionId;         // 登录
 @property (nonatomic, copy) NSString *mobileNum;      // 手机号码

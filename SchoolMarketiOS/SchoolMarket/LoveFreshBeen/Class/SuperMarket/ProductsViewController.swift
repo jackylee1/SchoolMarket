@@ -42,7 +42,7 @@ class ProductsViewController: AnimationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductsViewController.shopCarBuyProductNumberDidChange), name: LFBShopCarBuyProductNumberDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shopCarBuyProductNumberDidChange", name: LFBShopCarBuyProductNumberDidChangeNotification, object: nil)
         
         view = UIView(frame: CGRectMake(ScreenWidth * 0.25, 0, ScreenWidth * 0.75, ScreenHeight - NavigationH))
         buildProductsTableView()
@@ -62,7 +62,7 @@ class ProductsViewController: AnimationViewController {
         productsTableView?.registerClass(SupermarketHeadView.self, forHeaderFooterViewReuseIdentifier: headViewIdentifier)
         productsTableView?.tableFooterView = buildProductsTableViewTableFooterView()
         
-        let headView = LFBRefreshHeader(refreshingTarget: self, refreshingAction: #selector(ProductsViewController.startRefreshUpPull))
+        let headView = LFBRefreshHeader(refreshingTarget: self, refreshingAction: "startRefreshUpPull")
         productsTableView?.mj_header = headView
         
         view.addSubview(productsTableView!)
@@ -77,8 +77,9 @@ class ProductsViewController: AnimationViewController {
     
     // MARK: - 上拉刷新
     func startRefreshUpPull() {
-         refreshUpPull != nil
-            
+        if refreshUpPull != nil {
+            refreshUpPull!()
+        }
     }
     
     // MARK: - Action 
@@ -134,13 +135,13 @@ extension ProductsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int) {
         
-        if delegate != nil && delegate!.respondsToSelector(#selector(ProductsViewControllerDelegate.didEndDisplayingHeaderView(_:))) && isScrollDown {
+        if delegate != nil && delegate!.respondsToSelector("didEndDisplayingHeaderView:") && isScrollDown {
             delegate!.didEndDisplayingHeaderView!(section)
         }
     }
     
     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if delegate != nil && delegate!.respondsToSelector(#selector(ProductsViewControllerDelegate.willDisplayHeaderView(_:))) && !isScrollDown {
+        if delegate != nil && delegate!.respondsToSelector("willDisplayHeaderView:") && !isScrollDown {
             delegate!.willDisplayHeaderView!(section)
         }
     }

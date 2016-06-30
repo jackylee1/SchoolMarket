@@ -18,13 +18,6 @@ static NSString *const m_idsIdKey = @"lc_m_idsIdKey";
 static NSString *const recieveNotifyKey = @"lc_recieveNotifyKey";
 static NSString *const mobileKey = @"lc_mobileKey";
 
-static NSString *const nickKey = @"lc_nickKey";
-
-static NSString *const adressKey = @"lc_adressKey";
-static NSString *const genderKey = @"lc_genderKey";
-
-
-
 #define GET_USER_DEFAULTS(v) NSUserDefaults *v = [NSUserDefaults standardUserDefaults];
 #define ProfileName @"Profile"
 #define TeamInfoName @"TeamInfo"
@@ -92,25 +85,9 @@ static NSString *const genderKey = @"lc_genderKey";
     [self setObject:m_ids forKey:m_idsIdKey];
 }
 
-- (void)setNick:(NSString *)nick {
-    [self setObject:nick forKey:nickKey];
-}
-
-- (void)setAddress:(NSString *)address {
-    [self setObject:address forKey:adressKey];
-}
-
 - (void)setRecieveNotify:(NSArray *)recieveNotify
 {
     [self setObject:recieveNotify forKey:recieveNotifyKey];
-}
-
-- (void)setGender:(NSString *)gender {
-    [self setObject:gender forKey:genderKey];
-}
-
-- (void)setMobileNum:(NSString *)mobileNum {
-    [self setObject:mobileNum forKey:mobileKey];
 }
 
 //- (void)setUserInfo:(UserProfileItems *)userInfo
@@ -155,24 +132,12 @@ static NSString *const genderKey = @"lc_genderKey";
     return [self getObjectWithKey:mobileKey];
 }
 
-- (NSString *)nick {
-    return [self getObjectWithKey:nickKey];
-}
-
-
-- (NSString *)address {
-    return [self getObjectWithKey:adressKey];
-}
 //- (UserProfileItems *)userInfo
 //{
 //    NSString *path = [self getFilePath];
 //    UserProfileItems *items_ = [NSKeyedUnarchiver unarchiveObjectWithFile:[path stringByAppendingPathComponent:ProfileName]];
 //    return items_;
 //}
-
-- (NSString *)gender {
-    return [self getObjectWithKey:genderKey];
-}
 
 + (UserProfileItems *)getUserProfileItems {
     LCAccount *act = [LCAccount sharedInstance];

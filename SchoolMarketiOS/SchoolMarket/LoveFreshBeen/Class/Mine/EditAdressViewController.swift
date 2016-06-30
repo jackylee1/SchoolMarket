@@ -79,9 +79,6 @@ class EditAdressViewController: BaseViewController {
             adressTextField?.text = (adress.address! as NSString).substringFromIndex(range.location + 1)
             
             deleteView.hidden = false
-        }else {
-            let act:LCAccount = LCAccount.sharedInstance()
-            phoneNumberTextField?.text = act.mobileNum
         }
         
     }
@@ -112,7 +109,6 @@ class EditAdressViewController: BaseViewController {
     }
     
     private func buildScrollView() {
-        scrollView.keyboardDismissMode = .OnDrag
         scrollView.frame = view.bounds
         scrollView.backgroundColor = UIColor.clearColor()
         scrollView.alwaysBounceVertical = true
@@ -147,7 +143,6 @@ class EditAdressViewController: BaseViewController {
         
         phoneNumberTextField = UITextField()
         buildTextField(phoneNumberTextField!, frame: CGRectMake(x, 2 * viewHeight, textFieldWidth, viewHeight), placeholder: "鲜蜂侠联系你的电话", tag: 2)
-        phoneNumberTextField?.text = LCAccount.sharedInstance().mobileNum
         
         cityTextField = UITextField()
         buildTextField(cityTextField!, frame: CGRectMake(x, 3 * viewHeight, textFieldWidth, viewHeight), placeholder: "请选择城市", tag: 3)
@@ -276,7 +271,7 @@ class EditAdressViewController: BaseViewController {
             return
         }
         
-        if adressTextField?.text?.characters.count <= 1 {
+        if adressTextField?.text?.characters.count <= 2 {
             ProgressHUDManager.showImage(UIImage(named: "v2_orderSuccess")!, status: "在哪里呢啊~上哪找你去啊~")
             return
         }
@@ -306,13 +301,6 @@ class EditAdressViewController: BaseViewController {
         adress.gender = manButton!.selected ? "1" : "2"
         adress.city_name = cityTextField!.text
         adress.address = areaTextField!.text! + " " + adressTextField!.text!
-        UserInfo.sharedUserInfo.setDefaultAdress(adress)
-        
-        let act = LCAccount.sharedInstance()
-        act.nick = adress.accept_name
-        act.address = adress.address
-        act.mobileNum = adress.telphone
-        act.gender = adress.gender;
     }
     
     func genderButtonClick(sender: UIButton) {
@@ -343,7 +331,6 @@ class EditAdressViewController: BaseViewController {
     
     func deleteViewClick() {
         topVC!.adresses!.removeAtIndex(currentAdressRow)
-        UserInfo.sharedUserInfo.cleanAllAdress()
         navigationController?.popViewControllerAnimated(true)
         topVC?.adressTableView?.reloadData()
     }
@@ -355,7 +342,7 @@ extension EditAdressViewController: UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
         if textField.tag == 2 {
-            if textField.text?.characters.count == 13 && string != "" {
+            if textField.text?.characters.count == 13 {
                 
                 return false
                 

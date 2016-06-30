@@ -9,8 +9,6 @@
 //  小熊的新浪微博:http://weibo.com/5622363113/profile?topnav=1&wvr=6
 
 import UIKit
-import Alamofire
-import SwiftyJSON
 
 class SupermarketViewController: SelectedAdressViewController {
     
@@ -99,11 +97,7 @@ class SupermarketViewController: SelectedAdressViewController {
         }
     }
     
-    /**
-     加载数据
-     */
     private func loadSupermarketData() {
-        
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { () -> Void in
             weak var tmpSelf = self
