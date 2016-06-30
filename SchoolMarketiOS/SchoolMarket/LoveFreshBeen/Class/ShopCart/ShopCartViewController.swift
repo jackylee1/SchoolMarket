@@ -67,9 +67,9 @@ class ShopCartViewController: BaseViewController {
     
     // MARK - Add Notification KVO Action
     private func addNSNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shopCarProductsDidRemove", name: LFBShopCarDidRemoveProductNSNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShopCartViewController.shopCarProductsDidRemove), name: LFBShopCarDidRemoveProductNSNotification, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "shopCarBuyPriceDidChange", name: LFBShopCarBuyPriceDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShopCartViewController.shopCarBuyPriceDidChange), name: LFBShopCarBuyPriceDidChangeNotification, object: nil)
     }
     
     func shopCarProductsDidRemove() {
@@ -89,7 +89,7 @@ class ShopCartViewController: BaseViewController {
     private func buildNavigationItem() {
         navigationItem.title = "购物车"
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem.barButton(UIImage(named: "v2_goback")!, target: self, action: "leftNavigitonItemClick")
+        navigationItem.leftBarButtonItem = UIBarButtonItem.barButton(UIImage(named: "v2_goback")!, target: self, action: #selector(ShopCartViewController.leftNavigitonItemClick))
     }
     
     private func buildEmptyUI() {
@@ -111,7 +111,7 @@ class ShopCartViewController: BaseViewController {
         emptyButton.setBackgroundImage(UIImage(named: "btn.png"), forState: UIControlState.Normal)
         emptyButton.setTitle("去逛逛", forState: UIControlState.Normal)
         emptyButton.setTitleColor(UIColor.colorWithCustom(100, g: 100, b: 100), forState: UIControlState.Normal)
-        emptyButton.addTarget(self, action: "leftNavigitonItemClick", forControlEvents: UIControlEvents.TouchUpInside)
+        emptyButton.addTarget(self, action: #selector(ShopCartViewController.leftNavigitonItemClick), forControlEvents: UIControlEvents.TouchUpInside)
         emptyButton.hidden = true
         view.addSubview(emptyButton)
     }
@@ -143,7 +143,7 @@ class ShopCartViewController: BaseViewController {
     
     private func buildSupermarketTableView() {
         supermarketTableView.tableHeaderView = tableHeadView
-        tableFooterView.frame = CGRectMake(0, ScreenHeight - 64 - 50, ScreenWidth, 50)
+        tableFooterView.frame = CGRectMake(0, ScreenHeight - 50 - 50, ScreenWidth, 50)
         view.addSubview(tableFooterView)
         tableFooterView.delegate = self
         supermarketTableView.delegate = self
@@ -166,14 +166,24 @@ class ShopCartViewController: BaseViewController {
             receiptAdressView?.adress = UserInfo.sharedUserInfo.defaultAdress()
         } else {
             weak var tmpSelf = self
-            AdressData.loadMyAdressData { (data, error) -> Void in
-                if error == nil {
-                    if data!.data?.count > 0 {
-                        UserInfo.sharedUserInfo.setAllAdress(data!.data!)
-                        tmpSelf!.receiptAdressView?.adress = UserInfo.sharedUserInfo.defaultAdress()
-                    }
-                }
-            }
+            let act = LCAccount.sharedInstance()
+            var defaultAdress = Adress()
+            defaultAdress.accept_name = act.nick
+            defaultAdress.telphone = act.mobileNum
+            defaultAdress.gender = act.gender;
+            defaultAdress.address = act.address
+            tmpSelf!.receiptAdressView?.adress = defaultAdress
+
+
+//            weak var tmpSelf = self
+//            AdressData.loadMyAdressData { (data, error) -> Void in
+//                if error == nil {
+//                    if data!.data?.count > 0 {
+//                        UserInfo.sharedUserInfo.setAllAdress(data!.data!)
+//                        tmpSelf!.receiptAdressView?.adress = UserInfo.sharedUserInfo.defaultAdress()
+//                    }
+//                }
+//            }
         }
     }
     
@@ -182,13 +192,13 @@ class ShopCartViewController: BaseViewController {
         
         tableHeadView.addSubview(markerView)
     }
-    
+    //收货时间
     private func buildSignTimeView() {
         let signTimeView = UIView(frame: CGRectMake(0, 150, view.width, ShopCartRowHeight))
         signTimeView.backgroundColor = UIColor.whiteColor()
         tableHeadView.addSubview(signTimeView)
         
-        let tap = UITapGestureRecognizer(target: self, action: "modifySignTimeViewClick")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ShopCartViewController.modifySignTimeViewClick))
         tableHeadView.addGestureRecognizer(tap)
         
         let signTimeTitleLabel = UILabel()
@@ -271,7 +281,7 @@ extension ShopCartViewController: ShopCartSupermarketTableFooterViewDelegate {
 extension ShopCartViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserShopCarTool.sharedUserShopCar.getShopCarProductsClassifNumber()
+        return UserShopCarTool.sharedUserShopCar.getShopCarProducts().count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

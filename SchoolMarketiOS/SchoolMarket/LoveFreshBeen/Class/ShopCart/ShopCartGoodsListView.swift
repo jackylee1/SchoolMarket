@@ -9,7 +9,7 @@
 //  小熊的新浪微博:http://weibo.com/5622363113/profile?topnav=1&wvr=6
 
 import UIKit
-
+/// 超市
 class ShopCartGoodsListView: UIView {
     
     var goodsHeight: CGFloat = 0
@@ -104,7 +104,7 @@ class PayGoodsDetailView: UIView {
             }
             
             numberLabel.text = "x" + "\(goods!.userBuyNumber)"
-            priceLabel.text = "$" + (goods!.price)!.cleanDecimalPointZear()
+            priceLabel.text = "$" + (goods!.price)!
             
             if !(goods!.pm_desc == "买一赠一") {
                 giftImageView.hidden = true

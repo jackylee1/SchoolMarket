@@ -100,25 +100,39 @@ class MyAdressViewController: BaseViewController {
     
     private func loadAdressData() {
         weak var tmpSelf = self
-        AdressData.loadMyAdressData { (data, error) -> Void in
-            if error == nil {
-                if data?.data?.count > 0 {
-                    tmpSelf!.adresses = data!.data
-                    tmpSelf!.adressTableView?.hidden = false
-                    tmpSelf!.adressTableView?.reloadData()
-                    tmpSelf!.nullImageView.hidden = true
-                    UserInfo.sharedUserInfo.setAllAdress(data!.data!)
-                } else {
-                    tmpSelf!.adressTableView?.hidden = true
-                    tmpSelf!.nullImageView.hidden = false
-                    UserInfo.sharedUserInfo.cleanAllAdress()
-                }
-            }
+        if let defaultAdress:Adress = UserInfo.sharedUserInfo.defaultAdress() {
+            tmpSelf!.adresses = [defaultAdress]
+            tmpSelf!.adressTableView?.hidden = false
+            tmpSelf!.adressTableView?.reloadData()
+            tmpSelf!.nullImageView.hidden = true
+            UserInfo.sharedUserInfo.setAllAdress([defaultAdress])
+
+        }else {
+            tmpSelf!.adressTableView?.hidden = true
+            tmpSelf!.nullImageView.hidden = false
+            UserInfo.sharedUserInfo.cleanAllAdress()
         }
+        
+        
+//        AdressData.loadMyAdressData { (data, error) -> Void in
+//            if error == nil {
+//                if data?.data?.count > 0 {
+//                    tmpSelf!.adresses = data!.data
+//                    tmpSelf!.adressTableView?.hidden = false
+//                    tmpSelf!.adressTableView?.reloadData()
+//                    tmpSelf!.nullImageView.hidden = true
+//                    UserInfo.sharedUserInfo.setAllAdress(data!.data!)
+//                } else {
+//                    tmpSelf!.adressTableView?.hidden = true
+//                    tmpSelf!.nullImageView.hidden = false
+//                    UserInfo.sharedUserInfo.cleanAllAdress()
+//                }
+//            }
+//        }
     }
         
     private func buildBottomAddAdressButtom() {
-        let bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 60 - 64, ScreenWidth, 60))
+        let bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 100, ScreenWidth, 60))
         bottomView.backgroundColor = UIColor.whiteColor()
         view.addSubview(bottomView)
     

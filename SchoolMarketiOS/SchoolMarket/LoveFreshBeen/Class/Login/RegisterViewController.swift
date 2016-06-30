@@ -8,12 +8,20 @@
 
 import UIKit
 import AVKit
+import Alamofire
+import SwiftyJSON
+import SVProgressHUD
+
 
 class RegisterViewController: BaseNavigationController {
     
     private var bacImage:UIImageView?
     private var textFieldView:UIView?
+    private var phoneField:RegisterTextField?
+    private var passwordField:RegisterTextField?
 
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -49,12 +57,12 @@ class RegisterViewController: BaseNavigationController {
         textFieldView = UIView(frame: CGRectMake(0, marTop, view.width, marHeight*5))
         view.addSubview(textFieldView!)
         
-        let field1 = RegisterTextField(frame: CGRectMake(0, 0, view.width, marHeight), placeholder: "手机号码", tag: 10001)
-        textFieldView!.addSubview(field1)
+        phoneField = RegisterTextField(frame: CGRectMake(0, 0, view.width, marHeight), placeholder: "手机号码", tag: 10001)
+        textFieldView!.addSubview(phoneField!)
         let field2 = RegisterTextField(frame: CGRectMake(0, marHeight+15, view.width, marHeight), placeholder: "输入密码", tag: 10002)
         textFieldView!.addSubview(field2)
-        let field3 = RegisterTextField(frame: CGRectMake(0, marHeight*2+30, view.width, marHeight), placeholder: "再次输入密码", tag: 10003)
-        textFieldView!.addSubview(field3)
+        passwordField = RegisterTextField(frame: CGRectMake(0, marHeight*2+30, view.width, marHeight), placeholder: "再次输入密码", tag: 10003)
+        textFieldView!.addSubview(passwordField!)
         
         let signInBtn = UIButton(frame: CGRectMake(30, marHeight*3+50, view.width-60, marHeight))
         signInBtn.layer.cornerRadius = 5.0
@@ -66,8 +74,42 @@ class RegisterViewController: BaseNavigationController {
     
     func signInBtnOnClick()
     {
-        let mainVC = MainTabBarController()
-        self.presentViewController(mainVC, animated: true, completion: nil)
+        Alamofire.request(.GET, "http://192.168.191.1:8080/SchoolMarketWebService/regist.jsp",parameters: ["name":phoneField!.textField!.text!,"password":passwordField!.textField!.text!])
+            .responseJSON { response in
+                if let value = response.result.value {
+                    print("\(value)")
+                }
+                switch (response.result) {
+                case .Success:
+                    let json = JSON(response.result.value!)
+                    let status = json["code"]
+                    let message = json["msg"]
+                    if status.intValue != 201 {
+                        SVProgressHUD.showErrorWithStatus("\(message)")
+                    }else {
+                        //改变本地登录状态
+                        let act:LCAccount = LCAccount.sharedInstance()
+                        act.logined = true
+                        act.userId = String(json["data"]["map"]["user_id"].intValue)
+                        act.mobileNum = self.phoneField?.textField?.text
+                    print("用户id：\(act.userId)")
+                        SVProgressHUD.showSuccessWithStatus("登陆成功")
+                        let mainVC = MainTabBarController()
+                        self.presentViewController(mainVC, animated: true, completion: nil)
+                    }
+                case .Failure(let error):
+                    SVProgressHUD.showErrorWithStatus("登录失败")
+                    print("\(error)")
+                }
+        }
+
+//        
+//        //改变本地登录状态
+//        let act:LCAccount = LCAccount.sharedInstance()
+//        act.logined = true
+//        act.mobileNum = phoneField!.textField!.text
+//        let mainVC = MainTabBarController()
+//        self.presentViewController(mainVC, animated: true, completion: nil)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {

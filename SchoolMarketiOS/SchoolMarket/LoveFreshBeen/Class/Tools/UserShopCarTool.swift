@@ -32,10 +32,13 @@ class UserShopCarTool: NSObject {
         for everyGoods in supermarketProducts {
             if everyGoods.id == goods.id {
                 return
+            }else {
+
             }
         }
-        
+        print("加入购物车的商品ID为\(goods.id)")
         supermarketProducts.append(goods)
+        
     }
     
     func getShopCarProducts() -> [Goods] {
@@ -63,6 +66,6 @@ class UserShopCarTool: NSObject {
             allPrice = allPrice + Double(goods.partner_price!)! * Double(goods.userBuyNumber)
         }
         
-        return "\(allPrice)".cleanDecimalPointZear()
+        return "\(allPrice)"
     }
 }

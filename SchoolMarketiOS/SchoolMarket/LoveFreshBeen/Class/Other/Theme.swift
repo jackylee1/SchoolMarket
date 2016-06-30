@@ -16,7 +16,7 @@ public let ScreenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
 public let ScreenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
 public let ScreenBounds: CGRect = UIScreen.mainScreen().bounds
 public let ShopCarRedDotAnimationDuration: NSTimeInterval = 0.2
-public let LFBNavigationBarWhiteBackgroundColor = UIColor.colorWithCustom(249, g: 250, b: 253)
+public let LFBNavigationBarWhiteBackgroundColor = UIColor(hex: 0x87CEFA)
 
 // MARK: - Home 属性
 public let HotViewMargin: CGFloat = 10
@@ -54,7 +54,7 @@ public let BlogURLString: String = "http://www.jianshu.com/users/5fe7513c7a57/la
 
 // MARK: - 常用颜色
 public let LFBGlobalBackgroundColor = UIColor.colorWithCustom(239, g: 239, b: 239)
-public let LFBNavigationYellowColor = UIColor.colorWithCustom(253, g: 212, b: 49)
+public let LFBNavigationYellowColor = UIColor(hex: 0x87CEFA)
 public let LFBTextGreyColol = UIColor.colorWithCustom(130, g: 130, b: 130)
 public let LFBTextBlackColor = UIColor.colorWithCustom(50, g: 50, b: 50)
 

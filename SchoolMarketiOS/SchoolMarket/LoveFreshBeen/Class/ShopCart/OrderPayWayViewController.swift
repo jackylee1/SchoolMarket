@@ -9,7 +9,10 @@
 //  小熊的新浪微博:http://weibo.com/5622363113/profile?topnav=1&wvr=6
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
+/// 支付页
 class OrderPayWayViewController: BaseViewController {
 
     private var scrollView = UIScrollView(frame: CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64 - 50))
@@ -110,7 +113,7 @@ class OrderPayWayViewController: BaseViewController {
         
         scrollView.contentSize = CGSizeMake(ScreenWidth, CGRectGetMaxY(costDetailView.frame) + 15)
         
-        let bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 50 - 64, ScreenWidth, 50))
+        let bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 50 - 50, ScreenWidth, 60))
         bottomView.backgroundColor = UIColor.whiteColor()
         buildLineView(bottomView, lineFrame: CGRectMake(0, 0, ScreenWidth, 1))
         view.addSubview(bottomView)
@@ -118,7 +121,7 @@ class OrderPayWayViewController: BaseViewController {
         buildLabel(CGRectMake(leftMargin, 0, 80, 50), textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(14), addView: bottomView, text: "实付金额:")
         var priceText = costDetailView.coupon == "0" ? UserShopCarTool.sharedUserShopCar.getAllProductsPrice() : "\((UserShopCarTool.sharedUserShopCar.getAllProductsPrice() as NSString).floatValue - 5)"
         if (priceText as NSString).floatValue < 30 {
-            priceText = "\((priceText as NSString).floatValue + 8)".cleanDecimalPointZear()
+            priceText = "\((priceText as NSString).floatValue + 8)"
         }
         buildLabel(CGRectMake(85, 0, 150, 50), textColor: UIColor.redColor(), font: UIFont.systemFontOfSize(14), addView: bottomView, text: "$" + priceText)
         
@@ -127,6 +130,7 @@ class OrderPayWayViewController: BaseViewController {
         payButton.setTitle("确认付款", forState: UIControlState.Normal)
         payButton.backgroundColor = LFBNavigationYellowColor
         payButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        payButton.addTarget(self, action: #selector(OrderPayWayViewController.pay(_:)), forControlEvents: .TouchUpInside)
         bottomView.addSubview(payButton)
     }
     
@@ -143,6 +147,55 @@ class OrderPayWayViewController: BaseViewController {
         label.font = font
         label.text = text
         addView.addSubview(label)
+    }
+    
+    /**
+     付款
+     
+     - parameter sender: <#sender description#>
+     */
+    func pay(sender:UIButton) {
+        let act = LCAccount.sharedInstance()
+        let goods:[Goods] = UserShopCarTool.sharedUserShopCar.getShopCarProducts()
+        var goodDic:[String:String] = ["":""]
+        var goodArray:[NSDictionary] = []
+        var count = 0
+        for good in goods {
+            goodDic.updateValue(good.id!, forKey: "Pid")
+            goodDic.updateValue(String(good.userBuyNumber), forKey: "Num")
+            goodArray.append(goodDic)
+            count += good.userBuyNumber
+        }
+        //时间
+        let dateformat = NSDateFormatter()
+        dateformat.dateFormat = "yyyy-MM-dd HH:mm"
+        dateformat.timeZone = NSTimeZone(name: "Asia/Shanghai")
+        
+        print("用户id：\(LCAccount.sharedInstance().userId)")
+        print("用户地址：\(LCAccount.sharedInstance().address)")
+        print("用户号码：\(LCAccount.sharedInstance().mobileNum)")
+
+
+        let dataDic = ["Cid":LCAccount.sharedInstance().userId,"address":LCAccount.sharedInstance().address,"receivcerPhone":act.mobileNum,"Price":UserShopCarTool.sharedUserShopCar.getAllProductsPrice(),"Date":dateformat.stringFromDate(NSDate()),"orderDetail":goodArray,"count":count]
+        
+        print(dataDic.description)
+
+        
+        Alamofire.request(.GET, "http://192.168.191.1:8080/SchoolMarketWebService/order.jsp",parameters: ["data":dataDic.mj_JSONString(),"type":"1"])
+            .responseJSON { response in
+                if let value = response.result.value {
+                    print("\(value)")
+                }
+                switch (response.result) {
+                case .Success:
+                    print("交互成功")
+               case .Failure(let error):
+                    print("错误信息：\(error)")
+                }
+        }
+
+        dismissViewControllerAnimated(true){}
+        
     }
     
 }

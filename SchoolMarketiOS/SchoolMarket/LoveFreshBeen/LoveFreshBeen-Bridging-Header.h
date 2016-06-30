@@ -9,12 +9,11 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
-#import "Masonry.h"
 //友盟
 //#import "MobClick.h"
 #import "UIColor+ForHEX.h"
 #import "MLTransition.h"
-#import "SVProgressHUD.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 #import "LCAccount.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "AVOSCloud.h"

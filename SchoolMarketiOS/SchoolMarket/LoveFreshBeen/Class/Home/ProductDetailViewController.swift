@@ -129,9 +129,9 @@ class ProductDetailViewController: BaseViewController {
         promptDetailLabel.font = UIFont.systemFontOfSize(14)
         promptView?.addSubview(promptDetailLabel)
         
-        buildLineView(CGRectMake(0, ScreenHeight - 51 - NavigationH, ScreenWidth, 1), addView: view)
+        buildLineView(CGRectMake(0, ScreenHeight - 51 - 50, ScreenWidth, 1), addView: view)
         
-        bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 50 - NavigationH, ScreenWidth, 50))
+        bottomView = UIView(frame: CGRectMake(0, ScreenHeight - 50 - 50, ScreenWidth, 60))
         bottomView?.backgroundColor = grayBackgroundColor
         view.addSubview(bottomView!)
         

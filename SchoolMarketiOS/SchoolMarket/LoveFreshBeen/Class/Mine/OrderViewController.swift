@@ -9,6 +9,8 @@
 //  小熊的新浪微博:http://weibo.com/5622363113/profile?topnav=1&wvr=6
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class OrderViewController: BaseViewController {
 
@@ -42,6 +44,19 @@ class OrderViewController: BaseViewController {
     }
     
     private func loadOderData() {
+        Alamofire.request(.GET, "http://192.168.191.1:8080/SchoolMarketWebService/order.jsp",parameters: ["type":"0","Cid":LCAccount.sharedInstance().userId])
+            .responseJSON { response in
+                if let value = response.result.value {
+                    print("\(value)")
+                }
+                switch (response.result) {
+                case .Success:
+                    print("交互成功")
+                case .Failure(let error):
+                    print("错误信息：\(error)")
+                }
+        }
+        
         weak var tmpSelf = self
         OrderData.loadOrderData { (data, error) -> Void in
             tmpSelf!.orders = data?.data
@@ -73,8 +88,9 @@ extension OrderViewController: UITableViewDelegate, UITableViewDataSource, MyOrd
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let orderDetailVC = OrderStatuslViewController()
-        orderDetailVC.order = orders![indexPath.row]
-        navigationController?.pushViewController(orderDetailVC, animated: true)
+        return
+//        let orderDetailVC = OrderStatuslViewController()
+//        orderDetailVC.order = orders![indexPath.row]
+//        navigationController?.pushViewController(orderDetailVC, animated: true)
     }
 }

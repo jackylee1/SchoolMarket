@@ -9,7 +9,7 @@
 //  小熊的新浪微博:http://weibo.com/5622363113/profile?topnav=1&wvr=6
 
 import UIKit
-
+import SVProgressHUD
 
 class ProgressHUDManager {
     

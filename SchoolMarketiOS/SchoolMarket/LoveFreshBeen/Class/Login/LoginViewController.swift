@@ -9,6 +9,8 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SVProgressHUD
+
 class LoginViewController: BaseNavigationController {
     
     private var bacImage:UIImageView?
@@ -121,15 +123,15 @@ class LoginViewController: BaseNavigationController {
     //Btn点击事件
     func loginBtnOnClick()
     {
-        //改变本地登录状态
-        let act:LCAccount = LCAccount.sharedInstance()
-        act.logined = true
-        
-        SVProgressHUD.showSuccessWithStatus("登陆成功")
-        let mainVC = MainTabBarController()
-        self.presentViewController(mainVC, animated: true, completion: nil)
+//        //改变本地登录状态
+//        let act:LCAccount = LCAccount.sharedInstance()
+//        act.logined = true
+//        
+//        SVProgressHUD.showSuccessWithStatus("登陆成功")
+//        let mainVC = MainTabBarController()
+//        self.presentViewController(mainVC, animated: true, completion: nil)
         //先判断下数据的合法性
-//        requestLogin()
+        requestLogin()
     }
     
     func signUpBtnOnClick()
@@ -161,7 +163,7 @@ class LoginViewController: BaseNavigationController {
     
 
     func requestLogin() {
-        Alamofire.request(.GET, "",parameters: ["name":mobileField.text!,"password":passwordField.text!])
+        Alamofire.request(.GET, "http://192.168.191.1:8080/SchoolMarketWebService/login.jsp",parameters: ["name":mobileField.text!,"password":passwordField.text!])
             .responseJSON { response in
                 if let value = response.result.value {
                     print("\(value)")
@@ -169,14 +171,16 @@ class LoginViewController: BaseNavigationController {
                 switch (response.result) {
                 case .Success:
                     let json = JSON(response.result.value!)
-                    let status = json["status"]
-                    let message = json["message"]
+                    let status = json["code"]
+                    let message = json["msg"]
                     if status.intValue != 200 {
                         SVProgressHUD.showErrorWithStatus("\(message)")
                     }else {
                         //改变本地登录状态
                         let act:LCAccount = LCAccount.sharedInstance()
                         act.logined = true
+                        act.userId = json["userid"].stringValue
+                        act.mobileNum = self.mobileField.text
                         SVProgressHUD.showSuccessWithStatus("登陆成功")
                         let mainVC = MainTabBarController()
                         self.presentViewController(mainVC, animated: true, completion: nil)
@@ -186,6 +190,9 @@ class LoginViewController: BaseNavigationController {
                     print("\(error)")
                 }
         }
+        
+        SVProgressHUD.dismiss()
+
     }
     /*
     // MARK: - Navigation

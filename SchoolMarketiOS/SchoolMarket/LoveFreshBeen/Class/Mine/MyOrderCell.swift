@@ -29,11 +29,11 @@ class MyOrderCell: UITableViewCell {
     var order: Order? {
         didSet {
             timeLabel?.text = order?.create_time
-            statusTextLabel?.text = order?.textStatus
+            statusTextLabel?.text = "已完成"
             goodsImageViews?.order_goods = order?.order_goods
             productNumsLabel?.text = "共" + "\(order!.buy_num)" + "件商品"
             productsPriceLabel?.text = "$" + (order!.user_pay_amount)!
-            buttons?.buttons = order?.buttons
+//            buttons?.buttons = order?.buttons
         }
     }
     
