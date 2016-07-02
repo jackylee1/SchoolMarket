@@ -25,6 +25,13 @@ public class SellModel extends AbstractTableModel{
 	public void query(String sql, String[] paras) {
 		// 初始化列，及每一列的名字
 		this.colums = new Vector<String>();
+                colums.add("产品编号");
+		colums.add("产品名称");
+		colums.add("产品价格");
+		colums.add("销售数量");
+		colums.add("合计金额");
+		colums.add("出售日期");
+		colums.add("产品种类");
 		
 		
 		this.rows = new Vector<Vector>();
