@@ -181,7 +181,7 @@ public class Login extends JFrame implements MouseListener{
 				JOptionPane.showMessageDialog(this, "请输入密码再登录");
 				return;
 			}
-			if (userid.equals("admin")||upassword.equals("210070")) {
+			if (userid.equals("admin")||upassword.equals("123")) {
 				System.out.println("登录成功！");
 				new MainWindows();
 				this.dispose();
@@ -208,6 +208,7 @@ public class Login extends JFrame implements MouseListener{
 			
 		}
 	}
+	//鼠标事件
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub

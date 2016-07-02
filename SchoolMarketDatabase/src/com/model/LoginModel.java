@@ -12,6 +12,7 @@ import com.db.SqlHelper;
 public class LoginModel {
 	
 	public static Vector<String> find(String sql, String[] paras) {
+
 		
 		Vector<String> temp = new Vector<String>();
 		SqlHelper sh=new SqlHelper();
@@ -35,6 +36,7 @@ public class LoginModel {
 	
 	// 判断是否存在登录权限
 	public static boolean checkid(String eid) {
+
 		
 		boolean b = false;
 		SqlHelper sh = new SqlHelper();
