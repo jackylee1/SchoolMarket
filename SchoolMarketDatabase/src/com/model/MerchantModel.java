@@ -24,9 +24,9 @@ public class MerchantModel extends AbstractTableModel{
 		colums.add("店         铺");
 		colums.add("店         主");
 		colums.add("性         别");
-		colums.add("许  可  证");
+		colums.add("许可证");
 		colums.add("电        话");
-		colums.add("地        址");
+		colums.add("地址");
 		colums.add("登录密码");
 		
 		this.rows = new Vector<Vector>();
@@ -37,13 +37,13 @@ public class MerchantModel extends AbstractTableModel{
 
 			// 从rs对象中可以得到一个ResultSetMetaData
 			// rsmt可以的到结果有多少列，而且可以知道每列的名字，加入表头的信息
-			ResultSetMetaData rsmt = rs.getMetaData();
+			ResultSetMetaData  rsmt = rs.getMetaData();
 			// 把rs的结果放入到rows
 			while (rs.next()) {
 
 				Vector<String> temp = new Vector<String>();
 				for (int i = 0; i < rsmt.getColumnCount(); i++) {
-					temp.add(rs.getString(i + 1));
+					temp.add( rs.getString(i + 1));
 				}
 				rows.add(temp);
 			}
@@ -57,10 +57,10 @@ public class MerchantModel extends AbstractTableModel{
 	}
 	
 	// 商家信息更新，包含增删改
-	public boolean Merchantupdate(String sql, String[] newparas) {
+	public boolean Merchantupdate(String sql,  String[] newparas) {
 		
 		boolean b = false;
-		SqlHelper sh = new SqlHelper();
+		SqlHelper sh = new  SqlHelper();
 		b = sh.update(sql, newparas);
 		
 		return b;
@@ -94,9 +94,9 @@ public class MerchantModel extends AbstractTableModel{
 	}
 	
 	@Override
-	public String getColumnName(int column) {
+	public String getColumnName(int  column) {
 		// TODO Auto-generated method stub
-		return this.colums.get(column);
+		return this.colums.get( column );
 	}
 
 	public int getRowCount() {
@@ -104,7 +104,7 @@ public class MerchantModel extends AbstractTableModel{
 		return this.rows.size();
 	}
 
-	public int getColumnCount() {
+	public int  getColumnCount() {
 		// TODO Auto-generated method stub
 		return this.colums.size();
 	}
