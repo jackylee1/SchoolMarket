@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class SqlHelper {
 	// 定义需要的对象
 	Connection ct = null;
-	PreparedStatement ps ;
+	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
 	// 连接数据库需要的字符串
@@ -83,7 +83,7 @@ public class SqlHelper {
 			boolean b = true;
 			try {
 
-				ps = ct.prepareStatement();
+				ps = ct.prepareStatement(sql);
 				// 循环的对paras赋值，？赋值法
 				for (int i = 0; i < paras.length; i++) {
 					ps.setString(i+1, paras[i]);
